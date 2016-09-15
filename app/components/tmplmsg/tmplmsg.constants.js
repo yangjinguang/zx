@@ -10,27 +10,27 @@ angular.module('zxApp')
                 url: '',
                 data: {
                     first: {
-                        value: '您好!',
+                        value: '',
                         color: '#173177'
                     },
                     keyword1: {
-                        value: '离散数学',
+                        value: '',
                         color: '#173177'
                     },
                     keyword2: {
-                        value: '2016年10月18日',
+                        value: '',
                         color: '#173177'
                     },
                     keyword3: {
-                        value: '北京',
+                        value: '',
                         color: '#173177'
                     },
                     keyword4: {
-                        value: '4212312413123',
+                        value: '',
                         color: '#173177'
                     },
                     remark: {
-                        value: '欢迎报名',
+                        value: '',
                         color: '#173177'
                     }
                 }
