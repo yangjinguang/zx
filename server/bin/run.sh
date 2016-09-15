@@ -11,6 +11,7 @@ function start () {
 function stop(){
     if [ -e $logFile/zx_server.pid ]; then
         kill -9 `cat $logFile/zx_server.pid`
+        rm $logFile/zx_server.pid
     else
         echo "server not running"
     fi
@@ -18,9 +19,9 @@ function stop(){
 
 case $1 in
     start)
-        start()
+        start
         ;;
     stop)
-        stop()
+        stop
         ;;
 esac
