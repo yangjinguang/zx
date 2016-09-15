@@ -1,7 +1,7 @@
 #!/bin/bash
 
 baseDir='../'
-logFile='~/log/zx_server.log'
-cd baseDir
-nohup node index.js > $logFile 2 > &1  &
+logFile='/data/yangjg/log/'
+cd $baseDir
+nohup node index.js > $logFile/zx_server.log 2>&1  &
 echo $! > $logFile/zx_server.pid
