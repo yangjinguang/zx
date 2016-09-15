@@ -1,14 +1,14 @@
 "use strict"
 
 angular.module('zxApp')
-    .factory('UsersApi', function ($resource) {
-        return $resource('http://123.57.45.81:6543/users', {}, {
+    .factory('UsersApi', function ($resource, CONFIG) {
+        return $resource(CONFIG.API.url + '/users', {}, {
             getUsers: {
                 method: 'GET',
             },
             getUserInfo: {
                 method: 'GET',
-                url: 'http://123.57.45.81:6543/user/info/:id'
+                url: CONFIG.API.url + '/user/info/:id'
             }
         })
     });

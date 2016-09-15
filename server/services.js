@@ -70,6 +70,32 @@ var service = {
 
         })
 
+    },
+    sendTmplMsg: function (msgData, next) {
+        "use strict";
+        token.check(function (access_token) {
+            var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + access_token;
+            var options = {
+                method: 'POST',
+                url: url,
+                json: true,
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: msgData
+
+            };
+            // console.log(options);
+            request(options, function (err, resData, body) {
+                // console.log(resData);
+                if (resData) {
+                    next(body)
+                } else {
+                    next(err)
+                }
+            });
+        })
+
     }
 };
 module.exports = service;

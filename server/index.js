@@ -3,7 +3,11 @@ var request = require("request");
 var qs = require("querystring");
 var token = require('./token');
 var service = require("./services");
+var bodyParser = require('body-parser');
 var app = express();
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -52,6 +56,12 @@ app.get('/user/info/:id', function (req, res) {
         })
     }
 
+});
+app.post('/tmplmsg', function (req, res) {
+    "use strict";
+    service.sendTmplMsg(req.body, function (resData) {
+        res.send(resData)
+    })
 });
 
 

@@ -1,8 +1,8 @@
 "use strict";
 
 angular.module('zxApp')
-    .factory('TmplmsgApi', function ($resource) {
-        return $resource('http://123.57.45.81:6543/tmplmsg', {}, {
+    .factory('TmplmsgApi', function ($resource, CONFIG) {
+        return $resource(CONFIG.API.url + '/tmplmsg', {}, {
             post: {
                 method: 'POST'
             }
