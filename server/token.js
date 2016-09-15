@@ -1,11 +1,11 @@
 var redis = require('redis');
 var qs = require("querystring");
 var request = require("request");
-var redisClient = redis.createClient({"host": "127.0.0.1", "port": "6379"});
-var config = require('./config')
+var config = require('./config');
 
 // redisClient.set('foo','bar');
 // redisClient.expire('foo',10);
+var redisClient = redis.createClient({"host": config.redis.host, "port": config.redis.port});
 
 var token = {
     get: function (next) {
