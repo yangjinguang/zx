@@ -1,0 +1,11 @@
+<div class="modal confirm-box" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" ng-bind="content"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel();$hide()">{{opts.cancelText}}</button>
+                <button type="button" class="btn btn-primary" ng-click="ok();$hide()">{{opts.okText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

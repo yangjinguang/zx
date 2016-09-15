@@ -1,0 +1,37 @@
+.confirm-box {
+    .modal-dialog {
+        width: 400px;
+    }
+}
+
+.ul-pagination {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    user-select: none;
+    text-align: center;
+    font-weight: normal;
+    font-size: 12px;
+    & > li {
+        margin: 0;
+        list-style: none;
+        float: left;
+        padding: 0 6px;
+        cursor: pointer;
+        &.next-page {
+            float: right;
+        }
+        &:hover {
+            color: #999;
+        }
+        &.disabled {
+            color: #ddd;
+            cursor: not-allowed;
+        }
+        &.active {
+            font-weight: bolder;
+            color: #999;
+        }
+    }
+}

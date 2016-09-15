@@ -1,0 +1,5 @@
+<ul class="ul-pagination clearfix">
+    <li class="pre-page" ng-class="{true:'disabled'}[page==1]" ng-click="fn.prePage()">上一页</li>
+    <li ng-repeat="p in data.pageList" ng-class="{true:'active'}[page==p]" ng-click="fn.pageClick(p)">{{p}}</li>
+    <li class="next-page" ng-click="fn.nextPage()" ng-class="{true:'disabled'}[page==totalPages]">下一页</li>
+</ul>

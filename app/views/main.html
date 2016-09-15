@@ -1,0 +1,40 @@
+<div class="mb-left">
+    <div class="user-list-header">
+        <!--<input type="checkbox" ng-model="data.userAllChecked">-->
+        用户列表
+    </div>
+    <ul class="clear-default-style user-list">
+        <li ng-repeat="user in data.userList"
+            ng-click="data.selectUser = user"
+            ng-class="{true:'active'}[data.selectUser==user]">
+            <!--<input type="checkbox" ng-model="user.checked">-->
+            {{user.nickname}}
+        </li>
+    </ul>
+    <div class="user-list-footer">
+        <pagination data-page="data.pageData.page"
+                    data-total-pages="data.pageData.totalPages"
+                    data-page-change="fn.pageChange(page)">
+        </pagination>
+    </div>
+</div>
+<div class="mb-right">
+    <div class="msg-form">
+        <div class="msg-form-header">
+            当前用户: &nbsp;&nbsp;{{data.selectUser.nickname}}
+            <div class="pull-right">
+                模板选择:
+                <button class="btn btn-default" bs-dropdown>
+                    {{data.thisMsgType.name||'请选择'}}
+                    <i class="fa fa-angle-down"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="(k,v) in data.MSG_TYPE" ng-click="fn.msgTypeChange(v)"><a>{{v.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="msg-form-body">
+            <tmplmsg ng-model="data.msgData" data-type="data.thisMsgType.key"></tmplmsg>
+        </div>
+    </div>
+</div>
