@@ -1,6 +1,6 @@
 #!/bin/bash
 
-baseDir='../'
+baseDir='../server'
 logFile='/data/yangjg/log/'
 
 function start () {

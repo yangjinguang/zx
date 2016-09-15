@@ -1,19 +1,19 @@
 #!/bin/bash
 
-baseDir='./'
+baseDir='../'
 logFile='/data/yangjg/log/'
 
 function start () {
     cd $baseDir
-    nohup node index.js > $logFile/zx_server.log 2>&1  &
-    echo $! > $logFile/zx_server.pid
+    nohup gulp serve > $logFile/zx_client.log 2>&1  &
+    echo $! > $logFile/zx_client.pid
 }
 function stop(){
-    if [ -e $logFile/zx_server.pid ]; then
-        kill -9 `cat $logFile/zx_server.pid`
-        rm $logFile/zx_server.pid
+    if [ -e $logFile/zx_client.pid ]; then
+        kill -9 `cat $logFile/zx_client.pid`
+        rm $logFile/zx_client.pid
     else
-        echo "server not running"
+        echo "client not running"
     fi
 }
 
