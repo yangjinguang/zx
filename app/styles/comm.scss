@@ -8,9 +8,11 @@ ul.clear-default-style {
         margin: 0;
     }
 }
-.btn {
-    outline: none!important;
+
+* {
+    outline: none !important;
 }
+
 .btn-primary {
     background-color: #333;
     border-color: #333;
@@ -28,4 +30,21 @@ ul.clear-default-style {
     min-width: 200px;
     left: 50%;
     text-align: center;
+}
+
+button.btn-no-style {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    &:active {
+        background: none;
+        border: none;
+        box-shadow: none;
+    }
+    &:hover {
+        background: none;
+        border: none;
+        box-shadow: none;
+    }
 }

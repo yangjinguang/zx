@@ -8,7 +8,12 @@
             ng-click="data.selectUser = user"
             ng-class="{true:'active'}[data.selectUser==user]">
             <!--<input type="checkbox" ng-model="user.checked">-->
-            {{user.nickname}}
+            <input type="radio" class="user-radio" ng-model="data.selectUser.openid" ng-value="user.openid">
+            <img class="head-img" ng-src="{{user.headimgurl|headimgFt:46}}">
+            <span class="user-name" title="{{user.nickname}}">
+                {{user.nickname}}
+            </span>
+            <!--<button class="btn btn-default btn-sm show-info" show-user-info="">详情</button>-->
         </li>
     </ul>
     <div class="user-list-footer">
@@ -19,6 +24,7 @@
     </div>
 </div>
 <div class="mb-right">
+
     <div class="msg-form">
         <div class="msg-form-header">
             当前用户: &nbsp;&nbsp;{{data.selectUser.nickname}}
@@ -32,6 +38,29 @@
                     <li ng-repeat="(k,v) in data.MSG_TYPE" ng-click="fn.msgTypeChange(v)"><a>{{v.name}}</a></li>
                 </ul>
             </div>
+        </div>
+        <div class="user-info clearfix">
+            <div ng-if="data.selectUser">
+                <div class="user-info-img">
+                    <img ng-src="{{data.selectUser.headimgurl|headimgFt:132}}">
+                </div>
+                <div class="user-info-detail">
+                    <p class="user-info-name">{{data.selectUser.nickname}}</p>
+                    <p>
+                        <label>备注</label>
+                        <span>{{data.selectUser.remark}}</span>
+                    </p>
+                    <p>
+                        <label>地区</label>
+                        <span>{{data.selectUser.province}} {{data.selectUser.city}}</span>
+                    </p>
+                    <p>
+                        <label>关注时间</label>
+                        <span>{{data.selectUser.subscribe_time*1000|date:'yyyy年MM月dd日'}}</span>
+                    </p>
+                </div>
+            </div>
+
         </div>
         <div class="msg-form-body">
             <tmplmsg ng-model="data.msgData" data-type="data.thisMsgType.key"></tmplmsg>
