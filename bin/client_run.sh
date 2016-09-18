@@ -5,7 +5,7 @@ logFile='/home/wuyu/log/'
 
 function start () {
     cd $baseDir
-    nohup gulp serve > $logFile/zx_client.log 2>&1  &
+    nohup gulp serve:prod > $logFile/zx_client.log 2>&1  &
     echo $! > $logFile/zx_client.pid
 }
 function stop(){
