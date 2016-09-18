@@ -32,10 +32,11 @@ app.get('/user/info/:id', function (req, res) {
             "user_list": []
         };
         var page = Number(req.query.page) || 1;
+        var pageCount = 50;
         service.getUsers(function (resData) {
             var total = resData.total;
-            var offset = (page - 1) * 50;
-            var openids = resData.data.openid.splice(offset, 50);
+            var offset = (page - 1) * pageCount;
+            var openids = resData.data.openid.splice(offset, pageCount);
             openids.forEach(function (openid, index) {
                 users.user_list.push({
                     "openid": openid,
@@ -45,8 +46,12 @@ app.get('/user/info/:id', function (req, res) {
             service.getUserInfoAll(users, function (resData) {
                 resData.total = total;
                 resData.page = page;
-                resData.count = 50;
-                resData.maxPage = parseInt(total / 50);
+                resData.count = pageCount;
+                if (total % pageCount > 0) {
+                    resData.maxPage = parseInt(total / pageCount) + 1;
+                } else {
+                    resData.maxPage = parseInt(total / pageCount)
+                }
                 res.send(resData)
             })
         })
