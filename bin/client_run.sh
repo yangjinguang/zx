@@ -1,7 +1,7 @@
 #!/bin/bash
 
 baseDir='../'
-logFile='/data/yangjg/log/'
+logFile='/home/wuyu/log/'
 
 function start () {
     cd $baseDir
