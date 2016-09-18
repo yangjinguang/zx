@@ -173,8 +173,8 @@ gulp.task('client:build', ['html', 'componentsHtml', 'styles'], function () {
         .pipe(cssFilter)
         .pipe($.minifyCss({cache: true}))
         .pipe(cssFilter.restore())
-        .pipe($.rev())
-        .pipe($.revReplace())
+        // .pipe($.rev())
+        // .pipe($.revReplace())
         .pipe(gulp.dest(yeoman.dist));
 });
 
@@ -189,11 +189,11 @@ gulp.task('componentsHtml', function () {
 
 gulp.task('images', function () {
     return gulp.src(yeoman.app + '/images/**/*')
-        .pipe($.cache($.imagemin({
-            optimizationLevel: 5,
-            progressive: true,
-            interlaced: true
-        })))
+        // .pipe($.cache($.imagemin({
+        //     optimizationLevel: 5,
+        //     progressive: true,
+        //     interlaced: true
+        // })))
         .pipe(gulp.dest(yeoman.dist + '/images'));
 });
 
