@@ -1,7 +1,7 @@
 var express = require('express');
 var request = require("request");
 var qs = require("querystring");
-var token = require('./token');
+var wxToken = require('./wxToken');
 var service = require("./services");
 var bodyParser = require('body-parser');
 var app = express();
@@ -15,11 +15,33 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
-    next();
+    if (req.method != 'OPTIONS' && req.url != '/login') {
+        service.auth(req.headers['authorization'], function (err) {
+            if (err) {
+                res.status(401);
+                res.send(err)
+            } else {
+                next()
+            }
+        })
+    } else {
+        next()
+    }
 });
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
+app.post('/login', function (req, res) {
+    var userData = req.body;
+    service.login(userData, function (err, resData) {
+        if (err) {
+            res.status(401);
+            res.send({data: err.msg})
+        } else {
+            res.send(resData)
+        }
+    })
+})
 app.get('/users', function (req, res) {
     service.getUsers(function (resData) {
         res.send(resData)

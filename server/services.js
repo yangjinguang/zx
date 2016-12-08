@@ -1,10 +1,53 @@
-var token = require("./token");
+var wxToken = require("./wxToken");
 var qs = require("querystring");
 var request = require("request");
+var jwt = require('jwt-simple');
+var md5 = require('md5');
+var secret = 'SuperIXX';
+var md5Salt = 'IIOnd';
+var config = require('./config');
 var service = {
+    login: function (userData, next) {
+        var users = config.users;
+        var res = null;
+        users.forEach(function (user) {
+            if (user.username == userData.username && md5(userData.password + md5Salt) == user.password) {
+                res = {
+                    id: user.id,
+                    name: user.name,
+                    username: user.username,
+                    token: jwt.encode(user, secret)
+                }
+            }
+        });
+        if (res) {
+            next(null, res)
+        } else {
+            next({msg: '用户名密码错误'})
+        }
+    },
+    auth: function (token, next) {
+        var isPass = false;
+        try {
+            var userData = jwt.decode(token, secret);
+            config.users.forEach(function (user) {
+                if (user.id == userData.id) {
+                    isPass = true;
+                }
+            });
+        } catch (e) {
+
+        }
+
+        if (isPass) {
+            next()
+        } else {
+            next({msg: '认证失败'})
+        }
+    },
     getUsers: function (next) {
         "use strict";
-        token.check(function (access_token) {
+        wxToken.check(function (access_token) {
             var queryParams = {
                 'access_token': access_token
             };
@@ -23,7 +66,7 @@ var service = {
         })
     },
     getUserInfo: function (id, next) {
-        token.check(function (access_token) {
+        wxToken.check(function (access_token) {
             var queryParams = {
                 'access_token': access_token,
                 'openid': id,
@@ -35,7 +78,6 @@ var service = {
                 url: url
             };
             request(options, function (err, resData, body) {
-                console.log(err);
                 if (resData) {
                     next(JSON.parse(body))
                 } else {
@@ -45,8 +87,7 @@ var service = {
         });
     },
     getUserInfoAll: function (users, next) {
-        token.check(function (access_token) {
-            console.log(access_token);
+        wxToken.check(function (access_token) {
             var url = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=' + access_token;
             var options = {
                 method: 'POST',
@@ -58,9 +99,7 @@ var service = {
                 body: users
 
             };
-            // console.log(options);
             request(options, function (err, resData, body) {
-                // console.log(resData);
                 if (resData) {
                     next(body)
                 } else {
@@ -73,7 +112,7 @@ var service = {
     },
     sendTmplMsg: function (msgData, next) {
         "use strict";
-        token.check(function (access_token) {
+        wxToken.check(function (access_token) {
             var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + access_token;
             var options = {
                 method: 'POST',
@@ -85,9 +124,7 @@ var service = {
                 body: msgData
 
             };
-            // console.log(options);
             request(options, function (err, resData, body) {
-                // console.log(resData);
                 if (resData) {
                     next(body)
                 } else {

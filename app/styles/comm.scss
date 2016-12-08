@@ -22,6 +22,9 @@ ul.clear-default-style {
     &:active {
         background-color: #555;
     }
+    &:focus {
+        background-color: #555;
+    }
 }
 
 .alert {
@@ -47,4 +50,8 @@ button.btn-no-style {
         border: none;
         box-shadow: none;
     }
+}
+
+.pointer {
+    cursor: pointer;
 }

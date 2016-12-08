@@ -7,7 +7,7 @@ var config = require('./config');
 // redisClient.expire('foo',10);
 var redisClient = redis.createClient({"host": config.redis.host, "port": config.redis.port});
 
-var token = {
+var wxToken = {
     get: function (next) {
         "use strict";
         let queryParams = {
@@ -35,7 +35,7 @@ var token = {
                 console.log('from cache');
                 next(reply)
             } else {
-                token.get(function (resData) {
+                wxToken.get(function (resData) {
                     "use strict";
                     redisClient.set('access_token', resData.access_token);
                     redisClient.expire('access_token', resData.expires_in);
@@ -45,4 +45,4 @@ var token = {
         });
     }
 };
-module.exports = token;
+module.exports = wxToken;
