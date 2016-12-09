@@ -12,19 +12,23 @@ angular.module('zxApp')
         var data = $scope.data = {};
         data.selectUser = null;
         data.MSG_TYPE = MSG_TYPE;
+        data.search = '';
         data.thisMsgType = data.MSG_TYPE['KCKT'];
         function refreshUserList(opts) {
+            $scope.isLoading = true;
             opts = angular.extend({
                 id: 'all',
-                page: 1
+                page: 1,
+                q: data.search
             }, opts);
             UsersApi.getUserInfo(opts, function (res) {
-                data.userList = res.user_info_list;
+                data.userList = res.list;
                 data.pageData = {
                     totalPages: res.maxPage,
                     page: res.page
                 };
                 data.selectUser = null;
+                $scope.isLoading = false;
             });
         }
 
@@ -35,13 +39,11 @@ angular.module('zxApp')
                 return;
             }
             msgData.touser = data.selectUser.openid;
-
-
-            TmplmsgApi.post({}, msgData, function (res) {
+            TmplmsgApi.post({}, msgData, function () {
                 alertBox.success('发送成功');
-            }, function (res) {
+            }, function () {
                 alertBox.error('发送失败');
-            })
+            });
         }
 
         $scope.$on('sendMsg', function (event, msgData) {
@@ -55,6 +57,12 @@ angular.module('zxApp')
                 refreshUserList({
                     page: page
                 })
+            },
+            toSearch: function () {
+                refreshUserList({q: data.search, page: 1})
+            },
+            forceRefreshUserList: function () {
+                refreshUserList({q: data.search, page: 1, force: true})
             }
         }
     });

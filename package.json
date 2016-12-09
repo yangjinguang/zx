@@ -40,6 +40,7 @@
     "test": "karma start test/karma.conf.js"
   },
   "dependencies": {
+    "async": "^2.1.4",
     "body-parser": "^1.15.2",
     "crypto": "0.0.3",
     "express": "^4.14.0",

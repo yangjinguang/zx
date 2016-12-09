@@ -4,6 +4,7 @@ var qs = require("querystring");
 var wxToken = require('./wxToken');
 var service = require("./services");
 var bodyParser = require('body-parser');
+var localUser = require('./localUser');
 var app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -55,28 +56,36 @@ app.get('/user/info/:id', function (req, res) {
         };
         var page = Number(req.query.page) || 1;
         var pageCount = 50;
-        service.getUsers(function (resData) {
-            var total = resData.total;
-            var offset = (page - 1) * pageCount;
-            var openids = resData.data.openid.splice(offset, pageCount);
-            openids.forEach(function (openid, index) {
-                users.user_list.push({
-                    "openid": openid,
-                    "lang": "zh-CN"
-                })
-            });
-            service.getUserInfoAll(users, function (resData) {
-                resData.total = total;
-                resData.page = page;
-                resData.count = pageCount;
-                if (total % pageCount > 0) {
-                    resData.maxPage = parseInt(total / pageCount) + 1;
-                } else {
-                    resData.maxPage = parseInt(total / pageCount)
-                }
-                res.send(resData)
-            })
-        })
+        var offset = (page - 1) * pageCount;
+        var allUsers = {};
+        var search = req.query.q;
+        console.log(req.query);
+        var force = req.query.force === 'true';
+        localUser.get(function (resData) {
+            var filterUserList = [];
+            if (search) {
+                console.log(search);
+                var reg = new RegExp(search);
+                resData.forEach(function (user) {
+                    if (reg.test(user.nickname)) {
+                        filterUserList.push(user)
+                    }
+                });
+            } else {
+                filterUserList = resData;
+            }
+            allUsers.list = filterUserList.slice(offset, offset + pageCount);
+            allUsers.total = filterUserList.length;
+            allUsers.page = page;
+            allUsers.count = pageCount;
+            if (allUsers.total % allUsers.count > 0) {
+                allUsers.maxPage = parseInt(allUsers.total / allUsers.count) + 1;
+            } else {
+                allUsers.maxPage = parseInt(allUsers.total / allUsers.count)
+            }
+            res.send(allUsers)
+        }, force);
+
     } else {
         service.getUserInfo(req.params.id, function (resData) {
             res.send(resData)

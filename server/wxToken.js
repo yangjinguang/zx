@@ -32,7 +32,7 @@ var wxToken = {
     check: function (next) {
         redisClient.get('access_token', function (err, reply) {
             if (reply) {
-                console.log('from cache');
+                // console.log('from cache');
                 next(reply)
             } else {
                 wxToken.get(function (resData) {

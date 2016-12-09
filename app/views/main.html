@@ -1,10 +1,29 @@
 <div class="mb-left">
     <div class="user-list-header">
         <!--<input type="checkbox" ng-model="data.userAllChecked">-->
-        用户列表
+        <!--用户列表-->
+        <div class="user-list-title">
+            <h4>用户列表</h4>
+            <button class="btn btn-primary btn-sm"
+                    ng-click="fn.forceRefreshUserList()"
+                    data-title="如果找不到已关注的用户可以点此强制刷新"
+                    data-placement="bottom"
+                    bs-tooltip>更新
+            </button>
+        </div>
+        <div class="input-group search-input">
+            <input type="text" class="form-control" ng-model="data.search" ng-keyenter="fn.toSearch()">
+            <span class=" input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="fn.toSearch()">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </span>
+        </div>
     </div>
     <ul class="clear-default-style user-list">
+        <load-more ng-if="isLoading"></load-more>
         <li ng-repeat="user in data.userList"
+            ng-if="!isLoading"
             ng-click="data.selectUser = user"
             ng-class="{true:'active'}[data.selectUser==user]">
             <!--<input type="checkbox" ng-model="user.checked">-->
